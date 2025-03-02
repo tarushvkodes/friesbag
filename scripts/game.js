@@ -17,7 +17,7 @@ class Game {
             y: 0,
             width: 100,
             height: 80,
-            speed: 5
+            speed: 12  // Increased speed for more responsive movement
         };
         
         this.fries = [];
@@ -166,16 +166,24 @@ class Game {
     updateBag() {
         const input = this.controls.getInput();
         
-        if (input.leftPressed) {
-            this.bag.x -= this.bag.speed;
-        }
-        if (input.rightPressed) {
-            this.bag.x += this.bag.speed;
-        }
-        
-        // Mouse control
-        if (input.mouseX) {
-            this.bag.x = input.mouseX - this.bag.width / 2;
+        // Update autoplay target if enabled
+        if (input.autoplayEnabled) {
+            this.controls.updateTargetForAutoplay(this.fries, this.bag.width, this.canvas.width);
+            // Scale autoplay movement speed with the fry rate
+            this.bag.x = input.mouseX - (this.bag.width / 2);
+        } else {
+            // Move bag based on input
+            if (input.leftPressed) {
+                this.bag.x -= this.bag.speed;
+            }
+            if (input.rightPressed) {
+                this.bag.x += this.bag.speed;
+            }
+            
+            // Mouse/touch control - direct tracking
+            if (input.mouseX !== null && input.mouseX !== undefined) {
+                this.bag.x = input.mouseX - (this.bag.width / 2);
+            }
         }
         
         // Keep bag within canvas bounds
