@@ -4,7 +4,7 @@ A fun browser-based game where you catch falling french fries in a paper bag! Te
 
 ## Play the Game
 
-Visit [[FriesBag]](https://tarushvkodes.github.io/friesbag/) to play the game directly in your browser.
+Visit [FriesBag](https://tarushvkodes.github.io/friesbag/) to play the game directly in your browser.
 
 ## How to Play
 
