@@ -190,6 +190,15 @@ canvas {
         padding: 12px 24px;
         font-size: 1em;
     }
+
+    .controls {
+        top: 16px;
+        right: 16px;
+    }
+
+    input[type="range"] {
+        width: 80px;
+    }
 }
 
 .controls {
@@ -254,16 +263,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 #autoplay-button:hover {
     background-color: #45a049;
-}
-
-@media (max-width: 480px) {
-    .controls {
-        top: auto;
-        bottom: 16px;
-        right: 16px;
-    }
-
-    input[type="range"] {
-        width: 80px;
-    }
 }
