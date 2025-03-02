@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: #fbfbfd;
+    font-family: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #1d1d1f;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.game-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+button {
+    padding: 16px 32px;
+    font-size: 1.2em;
+    font-weight: 500;
+    background-color: #0071e3;
+    color: white;
+    border: none;
+    border-radius: 980px;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: -0.01em;
+}
+
+button:hover {
+    background-color: #0077ED;
+    transform: scale(1.02);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.hud {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 1;
+    color: #1d1d1f;
+    font-size: 1.1em;
+    font-weight: 500;
+    display: flex;
+    gap: 24px;
+}
+
+.hud div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+h1 {
+    color: #1d1d1f;
+    margin-bottom: 24px;
+    font-size: 3em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+}
+
+h2 {
+    color: #1d1d1f;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.high-score {
+    font-size: 1.1em;
+    color: #86868b;
+    font-weight: 500;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@keyframes spawn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.score, .lives, .level {
+    animation: spawn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.copyright {
+    margin-top: 20px;
+    color: #86868b;
+    font-size: 0.9em;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-align: center;
+}
