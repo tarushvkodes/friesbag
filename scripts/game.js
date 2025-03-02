@@ -21,25 +21,56 @@ class Game {
         };
         
         this.fries = [];
-        this.spawnInterval = 2000;
+        this.baseSpawnInterval = 2000;
+        this.fryRateMultiplier = 1;
         this.lastSpawnTime = 0;
         
         // Initialize
+        this.setupFryRateControl();
         this.setupCanvas();
         this.setupEventListeners();
         this.showMenu();
+        // Add resize listener
+        window.addEventListener('resize', () => this.handleResize());
     }
 
     setupCanvas() {
-        this.canvas.width = 800;
-        this.canvas.height = 600;
+        this.updateCanvasSize();
         this.bag.x = this.canvas.width / 2 - this.bag.width / 2;
+        this.bag.y = this.canvas.height - this.bag.height - 10;
+    }
+
+    updateCanvasSize() {
+        const container = this.canvas.parentElement;
+        this.canvas.width = container.clientWidth;
+        this.canvas.height = container.clientHeight;
+        // Adjust bag size for smaller screens
+        if (window.innerWidth <= 480) {
+            this.bag.width = 80;
+            this.bag.height = 64;
+        } else {
+            this.bag.width = 100;
+            this.bag.height = 80;
+        }
+    }
+
+    handleResize() {
+        this.updateCanvasSize();
+        // Update bag position to maintain relative position
+        this.bag.x = Math.min(this.bag.x, this.canvas.width - this.bag.width);
         this.bag.y = this.canvas.height - this.bag.height - 10;
     }
 
     setupEventListeners() {
         document.getElementById('start-button').addEventListener('click', () => this.startGame());
         document.getElementById('restart-button').addEventListener('click', () => this.startGame());
+    }
+
+    setupFryRateControl() {
+        const slider = document.getElementById('fryRateSlider');
+        slider.addEventListener('input', (e) => {
+            this.fryRateMultiplier = parseFloat(e.target.value);
+        });
     }
 
     showMenu() {
@@ -55,7 +86,8 @@ class Game {
         this.level = 1;
         this.fries = [];
         this.gameRunning = true;
-        this.spawnInterval = 2000;
+        this.baseSpawnInterval = 2000;
+        this.fryRateMultiplier = parseFloat(document.getElementById('fryRateSlider').value);
         
         document.getElementById('menu-screen').classList.add('hidden');
         document.getElementById('game-screen').classList.remove('hidden');
@@ -69,9 +101,9 @@ class Game {
         const fry = {
             x: Math.random() * (this.canvas.width - 20),
             y: -20,
-            width: 20,
-            height: 40,
-            speed: 2 + (this.level * 0.5),
+            width: window.innerWidth <= 480 ? 15 : 20,
+            height: window.innerWidth <= 480 ? 30 : 40,
+            speed: (2 + (this.level * 0.5)) * this.fryRateMultiplier,
             rotation: Math.random() * Math.PI * 2,
             rotationSpeed: (Math.random() - 0.5) * 0.1
         };
@@ -203,10 +235,10 @@ class Game {
 
     update() {
         const currentTime = Date.now();
-        if (currentTime - this.lastSpawnTime > this.spawnInterval) {
+        if (currentTime - this.lastSpawnTime > this.baseSpawnInterval / this.fryRateMultiplier) {
             this.spawnFry();
             this.lastSpawnTime = currentTime;
-            this.spawnInterval = Math.max(500, 2000 - (this.level * 100));
+            this.baseSpawnInterval = Math.max(500, 2000 - (this.level * 100));
         }
 
         this.updateBag();
